@@ -5,12 +5,13 @@ const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
 const path = require('path');
 const date = require('date-and-time');
+const fs = require('fs');
 
 let now = new Date();
 logname = date.format(now, 'DD-MM-YYYY[-]HH:mm'); //Name for csv Log File
 
 const csvWriter = createCsvWriter({
-    path: path.join(__dirname + `/SGS_Vais/Log-${logname}.csv`),
+    path: path.join(__dirname + `/Log-${logname}.csv`),
     header: [
         { id: 'time', title: 'Time' },
         { id: 'data', title: 'Data' },
@@ -47,7 +48,7 @@ parserS.on('data', datas => {
 
 setInterval(() => {
     toggle_supply();
-}, 15000);
+}, 20000);
 
 function toggle_supply() {
     fs.writeFile("/sys/class/gpio/gpio21/value", "0", function (err) {
@@ -70,5 +71,5 @@ function toggle_supply() {
         fs.writeFile("/sys/class/gpio/gpio21/value", "1", function (err) {
             //console.log("The file was saved!");
         });
-    }, 1000);
+    }, 5000);
 }
