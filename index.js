@@ -7,6 +7,9 @@ const path = require('path');
 const date = require('date-and-time');
 const fs = require('fs');
 
+fs.writeFile("/sys/class/gpio/export", "21");
+fs.writeFile("/sys/class/gpio/gpio21/direction", "out");
+
 let now = new Date();
 logname = date.format(now, 'DD-MM-YYYY[-]HH:mm'); //Name for csv Log File
 
