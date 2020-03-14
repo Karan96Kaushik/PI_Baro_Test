@@ -8,8 +8,8 @@ const path = require('path');
 const date = require('date-and-time');
 const fs = require('fs');
 
-fs.writeFile("/sys/class/gpio/export", "21");
-fs.writeFile("/sys/class/gpio/gpio21/direction", "out");
+fs.writeFile("/sys/class/gpio/export", "21", () => {});
+fs.writeFile("/sys/class/gpio/gpio21/direction", "out", () => {});
 
 let now = new Date();
 logname = date.format(now, 'DD-MM-YYYY[-]HH:mm'); //Name for csv Log File
@@ -32,7 +32,7 @@ SerPortS = new SerialPort(baro_port, {  // SGS
     }
 });
 
-SerPortS2 = new SerialPort(baro_port, {  // SGS
+SerPortS2 = new SerialPort(baro_port2, {  // SGS
     baudRate: 9600,
     parity: "none"
 }, function (err) {
@@ -48,12 +48,12 @@ var datas;
 var datas2;
 
 parserS.on('data', _datas => {
-    process.stdout.write("#");
+   // process.stdout.write("#");
     datas = _datas;
 })
 
 parserS2.on('data', _datas => {
-    process.stdout.write("!");
+    //process.stdout.write("!");
     datas2 = _datas;
 })
 
@@ -73,7 +73,7 @@ function write_csv() {
     ];
 
     csvWriter.writeRecords(records).then(() => {
-        //console.log('Done');
+        console.log(datas,datas2);
     });
 }
 
